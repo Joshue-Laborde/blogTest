@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //elimina la carpeta post para que al momento de ejecitar el comando de migrations
+        //no se descargen mas imagenes. La siguiente linea creara otra vez la carpeta posts con las imagenes
+        Storage::deleteDirectory('posts');
         //creamos una carpeta con el nombre post
         Storage::makeDirectory('posts');
 

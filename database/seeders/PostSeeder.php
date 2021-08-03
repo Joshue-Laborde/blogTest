@@ -24,6 +24,11 @@ class PostSeeder extends Seeder
                 'imageable_id'=>$post->id,
                 'Imageable_type'=> Post::class,
             ]);
+            //para agregar tagas a los post y viceversa
+            $post->tags()->attach([
+                rand(1,4),
+                rand(5,8)
+            ]);
         }
     }
 }

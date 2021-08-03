@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    mode: 'jit',
+    //mode: 'jit',
     purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
@@ -24,4 +24,10 @@ module.exports = {
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+
+    //se desabilita la clase container
+    corePlugins: {
+        // ...
+       container: false,
+      }
 };

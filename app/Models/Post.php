@@ -23,7 +23,7 @@ class Post extends Model
 
     //Relación muchos a muchos
     public function tags(){
-        return $this->belongsToMany('App\Models\Tag');
+        return $this->belongsToMany(Tag::class);
     }
 
     //relacion uno a uno polimorfica
