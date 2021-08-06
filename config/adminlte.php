@@ -266,7 +266,7 @@ return [
             'icon' => 'far fa-fw fa-bookmark',
             'active'=> ['admin/tags*']
         ],
-        [
+        /* [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -303,17 +303,17 @@ return [
                     'url'  => '#',
                 ],
             ],
-        ],
-        ['header' => 'labels'],
+        ], */
+        ['header' => 'OPCIONES DE BLOG'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text'       => 'Lista de post',
+            'icon' => 'fas fa-fw fa-clipboard-list',
+            'route'        => 'admin.posts.index',
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
+            'text'       => 'Crear nuevo post',
+            'icon' => 'fas fa-fw fa-file',
+            'route'        => 'admin.posts.create',
         ],
         [
             'text'       => 'information',
@@ -440,5 +440,5 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Other-Configuration
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

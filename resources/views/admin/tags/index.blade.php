@@ -4,8 +4,7 @@
 
 @section('content_header')
 
-    <a class="btn btn-secondary btn-sm float-right" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
-
+{{-- <a class="btn btn-secondary btn-sm float-right" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a> --}}
     <h1>Mostrar listado de etiqueta</h1>
 @stop
 
@@ -18,6 +17,9 @@
     @endif --}}
 
     <div class="card">
+        <div class="card-header">
+            <a class="btn btn-secondary" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <thead>

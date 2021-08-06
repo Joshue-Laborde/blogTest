@@ -15,7 +15,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        $posts=Post::factory(100)->create();
+        $posts=Post::factory(300)->create();
 
 
         //Sirve parw que cada post que se cree, se descargue una imagen
