@@ -20,8 +20,10 @@
                 @include('admin.tags.partials.form')
 
 
-            {!! Form::submit('Editar etiqueta', ['class' => 'btn btn-primary']) !!}
-            <a class="btn btn-danger ml-3" href="{{route('admin.tags.index')}}">Cancelar</a>
+            <div class="mt-4">
+                {!! Form::submit('Editar etiqueta', ['class' => 'btn btn-primary']) !!}
+                <a class="btn btn-danger ml-3" href="{{route('admin.tags.index')}}">Cancelar</a>
+            </div>
             {!! Form::close() !!}
         </div>
     </div>

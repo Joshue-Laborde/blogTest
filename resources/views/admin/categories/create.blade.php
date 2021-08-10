@@ -32,8 +32,10 @@
 
             </div>
 
-            {!! Form::submit('Crear categoria', ['class' => 'btn btn-primary']) !!}
-            <a class="btn btn-danger ml-3" href="{{route('admin.categories.index')}}">Cancelar</a>
+            <div class="mt-4">
+                {!! Form::submit('Crear categoria', ['class' => 'btn btn-primary']) !!}
+                <a class="btn btn-danger ml-3" href="{{route('admin.categories.index')}}">Cancelar</a>
+            </div>
 
             {!! Form::close() !!}
         </div>

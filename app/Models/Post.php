@@ -9,6 +9,11 @@ class Post extends Model
 {
     use HasFactory;
 
+
+    //asignacion masiva con guarded
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+
     //Relacion uno a muchos inversa
     public function user(){
         return $this->belongsTo('App\Models\User');

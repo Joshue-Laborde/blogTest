@@ -11,7 +11,7 @@
     <div class="card">
 
         <div class="card-header">
-            <a class="btn btn-secondary" href="{{ route('admin.categories.create') }}">Nueva categoria</a>
+            <a class="btn btn-success" href="{{ route('admin.categories.create') }}">Nueva categoria</a>
         </div>
 
         <div class="card-body">

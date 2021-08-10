@@ -1,7 +1,11 @@
 @props(['post'])
 
 <article class="mb-8 bg-white shadow-lg rounded-lg overflow-hidden" {{-- shadow sirve para que sobresalga(una sombra) --}}>
-    <img class="w-full h-72 object-cover object-center" src="{{Storage::url($post->image->url)}}" alt="">
+    @if ($post->image)
+        <img class="w-full h-72 object-cover object-center" src="{{Storage::url($post->image->url)}}">
+    @else
+        <img class="w-full h-72 object-cover object-center" src="https://cdn.pixabay.com/photo/2021/08/05/18/52/forest-6524635_960_720.jpg">
+    @endif
 
     <div class="px-6 py-4" >
         <h1 class="font-bold text-xl mb-2" >
@@ -9,7 +13,7 @@
         </h1>
 
         <div class="text-gray-700 text-base">
-            {{$post->extract}}
+            {!!$post->extract!!}
         </div>
 
         <div class="px-6 pt-4" >

@@ -18,7 +18,7 @@
 
     <div class="card">
         <div class="card-header">
-            <a class="btn btn-secondary" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
+            <a class="btn btn-success" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
         </div>
         <div class="card-body">
             <table class="table table-hover">

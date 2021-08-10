@@ -3,7 +3,7 @@
 @section('title', 'Blog')
 
 @section('content_header')
-<a class="btn btn-secondary float-right" href="{{ route('admin.posts.create') }}">Nueva categoria</a>
+    <a class="btn btn-secondary float-right" href="{{ route('admin.posts.create') }}">Nuevo Post</a>
 
     <h1>Listado de posts</h1>
 @stop
@@ -15,7 +15,17 @@
 
 
 @section('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        console.log('Hi!');
+        $(function() {
+
+            @if (Session('info'))
+                Swal.fire({
+                icon: 'success',
+                title: 'Good job!',
+                text: '{{ Session::get('info') }}'
+                })
+            @endif
+        });
     </script>
 @stop

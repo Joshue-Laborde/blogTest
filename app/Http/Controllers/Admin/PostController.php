@@ -8,6 +8,8 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use JeroenNoten\LaravelAdminLte\Components\Widget\Card;
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -41,9 +43,26 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        /* return Storage::put('posts', $request->file('file')); */
 
+        $post = Post::create($request->all());
+
+        if($request->file('file')){
+            $url= Storage::put('posts', $request->file('file'));
+
+            $post->image()->create([
+                'url'=> $url
+            ]);
+        }
+
+        //rellenamos la tabla intermedia post_tag con lo que se ha sellecionado en nel formulario
+        if($request->tags){
+            $post->tags()->attach($request->tags);
+        }
+
+        return redirect()->route('admin.posts.index')->with('info', 'El post se creó con éxito');;
     }
 
     /**
@@ -65,7 +84,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories=Category::pluck('name', 'id');
+        $tags=Tag::all();
+
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -75,9 +97,37 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->all());
+
+        //preguntamos si se esta mandando una imagen desde el formulario
+        if($request->file('file')){
+            //mandamos la imagen a nuestro servidor
+            $url=Storage::put('posts', $request->file('file'));
+
+            //preguntamos si el post contaba ya con una imagen
+            if($post->image){
+                //borramos la imagen que tenia y agregamos la imagen que se desea actualizar
+                Storage::delete($post->image->url);
+                //actualizamos la imagen nueva
+                $post->image->update([
+                    'url'=>$url
+                ]);
+            //caso contrario de no tener una imagen, se crea una nueva imagen
+            }else{
+                $post->image()->create([
+                    'url'=>$url
+                ]);
+            }
+        }
+
+        //rellenamos la tabla intermedia post_tag con lo que se ha sellecionado en nel formulario
+        if($request->tags){
+            $post->tags()->attach($request->tags);
+        }
+
+        return redirect()->route('admin.posts.index')->with('info', 'El post se actualizó con éxito');
     }
 
     /**

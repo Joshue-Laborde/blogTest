@@ -9,64 +9,39 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {!! Form::open(['route' => 'admin.posts.store', 'autocomplete' => 'off']) !!}
-            <div class="form-group">
-                {!! Form::label('name', 'Nombre') !!}
-                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del post']) !!}
-            </div>
+            {!! Form::open(['route' => 'admin.posts.store', 'autocomplete' => 'off', 'files' => true]) !!}
 
-            <div class="form-group">
-                {!! Form::label('slug', 'Slug') !!}
-                {!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el slug del post', 'readonly']) !!}
-            </div>
+            {!! Form::hidden('user_id', auth()->user()->id) !!}
 
-            <div class="form-group">
-                {!! Form::label('category_id', 'Categoria') !!}
-                {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
-            </div>
-
-            <div class="form-group">
-                <p class="font-weight-bold">Etiquetas</p>
-
-                @foreach ($tags as $tag)
-
-                    <label class="mr-2">
-                        {!! Form::checkbox('tags[}', $tag->id, null) !!}
-                        {{ $tag->name }}
-                    </label>
-
-                @endforeach
-            </div>
-
-            <div class="form-group">
-                <p class="font-weight-bold">Estado</p>
-
-                <label>
-                    {!! Form::radio('status', 1, true) !!}
-                    Borrador
-                </label>
-
-                <label>
-                    {!! Form::radio('status', 2, false) !!}
-                    Publicado
-                </label>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('extract', 'Extracto') !!}
-                {!! Form::textarea('extract', null, ['class' => 'form-control']) !!}
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('body', 'Cuerpo del post') !!}
-                {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
-            </div>
+            @include('admin.posts.partials.form')
 
             {!! Form::submit('Crear post', ['class' => 'btn btn-primary']) !!}
+            <a class="btn btn-danger ml-3" href="{{ route('admin.posts.index') }}">Cancelar</a>
             {!! Form::close() !!}
         </div>
     </div>
 @stop
+
+
+@section('css')
+    <style>
+        .image-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+        }
+
+        .image-wrapper img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+@stop
+
+
+
 
 @section('js')
     <script src="{{ asset('vendor/jQuery-Plugin-stringToSlug-1.3/jquery.stringToSlug.min.js') }}"> </script>
@@ -92,9 +67,19 @@
             .catch(error => {
                 console.error(error);
             });
+
+        //cambiar imagen
+        document.getElementById("file").addEventListener('change', cambiarImagen);
+
+        function cambiarImagen(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById("picture").setAttribute('src', e.target.result);
+            };
+
+            reader.readAsDataURL(file);
+        }
     </script>
 
-    <script>
-
-    </script>
 @stop
