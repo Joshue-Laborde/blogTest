@@ -9,25 +9,18 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use JeroenNoten\LaravelAdminLte\Components\Widget\Card;
 use App\Http\Requests\PostRequest;
+use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.posts.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //el metodo pluck sire para generar un array con el valor que se le asigne
@@ -37,12 +30,7 @@ class PostController extends Controller
         return view('admin.posts.create', compact('categories', 'tags'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(PostRequest $request)
     {
         /* return Storage::put('posts', $request->file('file')); */
@@ -65,40 +53,30 @@ class PostController extends Controller
         return redirect()->route('admin.posts.index')->with('info', 'El post se creó con éxito');;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Post $post)
     {
         return view('admin.posts.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Post $post)
     {
+        //policy
+        $this->authorize('author', $post);
+
         $categories=Category::pluck('name', 'id');
         $tags=Tag::all();
 
         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(PostRequest $request, Post $post)
     {
+
+        //policy
+        $this->authorize('author', $post);
+
         $post->update($request->all());
 
         //preguntamos si se esta mandando una imagen desde el formulario
@@ -123,21 +101,28 @@ class PostController extends Controller
         }
 
         //rellenamos la tabla intermedia post_tag con lo que se ha sellecionado en nel formulario
-        if($request->tags){
+       /*  if($request->tags){
             $post->tags()->attach($request->tags);
-        }
+        } */
+
+        //Si hacemos el metodo attach al momento de actualizar se va a actualizar la etiqueta, sino
+        //agregara mas etiquetas de las que tenia. Con el metodo sync se correige esto, solo se va a sincronizar
+
+        if($request->tags)
+            $post->tags()->sync($request->tags);
 
         return redirect()->route('admin.posts.index')->with('info', 'El post se actualizó con éxito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Post $post)
     {
-        //
+
+        //policy
+        $this->authorize('author', $post);
+
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')->with('info2', 'El post se eliminó con éxito');
     }
 }

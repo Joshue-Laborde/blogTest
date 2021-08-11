@@ -17,19 +17,23 @@
                 <tbody>
                     @foreach ($posts as $post)
                         <tr>
-                            <td>{{$post->id}}</td>
-                            <td>{{$post->name}}</td>
+                            <td>{{ $post->id }}</td>
+                            <td>{{ $post->name }}</td>
                             <td with="10px">
-                                <a class="btn btn-primary btn-sm" href="{{route('admin.posts.edit', $post)}}">Editar</a>
+                                <a class="btn btn-primary btn-sm"
+                                    href="{{ route('admin.posts.edit', $post) }}">Editar</a>
                             </td>
                             <td with="10px">
-                                <form action="{{route('admin.posts.destroy', $post)}}" method="POST">
+                                {{-- <form action="{{route('admin.posts.destroy', $post)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
 
                                     <button class="btn btn-danger btn-sm">Eliminar</button>
 
-                                </form>
+                                </form> --}}
+                                {!! Form::open(['route' => ['admin.posts.destroy', $post], 'method' => 'delete', 'onsubmit' => 'return confirm("Esta seguro de borrar el post?")']) !!}
+                                    {!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger']) !!}
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach
@@ -38,7 +42,7 @@
         </div>
 
         <div class="card-footer">
-            {{$posts->links()}}
+            {{ $posts->links() }}
         </div>
 
     @else

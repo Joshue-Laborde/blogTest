@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
         //creamos una carpeta con el nombre post
         Storage::makeDirectory('posts');
 
+        //llamamos al seeder de roles (lo ultimo)
+        $this->call(RoleSeeder::class);
+
         //\App\Models\User::factory(10)->create(); creamos un seeder aparte para configurar que en los usuarios este el nuestro
 
         //llamamos a los seeder creado

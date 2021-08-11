@@ -18,6 +18,9 @@ class PostController extends Controller
 
     public function show( Post $post){
 
+        //policy
+        $this->authorize('published', $post);
+
         //buscar la similitud de la categoria del post en la base de datos con la categoria del post enviada por parametro
         $similares= Post::where('category_id', $post->category_id)
                                 ->where('status', 2)
