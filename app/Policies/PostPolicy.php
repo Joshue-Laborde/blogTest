@@ -21,6 +21,7 @@ class PostPolicy
     }
 
     public function published(?User $user, Post $post){
+        //preguntamos si el post esta en modo publicado
         if($post->status == 2){
             return true;
         }else{
