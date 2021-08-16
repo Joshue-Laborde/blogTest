@@ -17,9 +17,11 @@
     @endif --}}
 
     <div class="card">
-        <div class="card-header">
-            <a class="btn btn-success" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
-        </div>
+        @can('admin.tags.create')
+            <div class="card-header">
+                <a class="btn btn-success" href="{{ route('admin.tags.create') }}">Nueva etiqueta</a>
+            </div>
+        @endcan
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
@@ -36,16 +38,24 @@
                             <td>{{ $tag->id }}</td>
                             <td>{{ $tag->name }}</td>
                             <td width=10px>
-                                <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', $tag) }}">Editar</a>
+                                @can('admin.tags.edit')
+                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', $tag) }}">Editar</a>
+                                @endcan
                             </td>
                             <td width=10px>
-                                <form action="{{ route('admin.tags.destroy', $tag) }}" method="POST">
+                                @can('admin.tags.destroy')
+                                    {{-- <form action="{{ route('admin.tags.destroy', $tag) }}" method="POST">
 
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
 
-                                </form>
+                                    </form> --}}
+
+                                    {!! Form::open(['route' => ['admin.tags.destroy', $tag], 'method' => 'delete', 'onsubmit' => 'return confirm("Esta seguro de borrar la etiqueta?")']) !!}
+                                     {!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger']) !!}
+                                    {!! Form::close() !!}
+                                @endcan
                             </td>
 
                         </tr>

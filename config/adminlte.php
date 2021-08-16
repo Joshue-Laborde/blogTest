@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
-    'title_prefix' => '',
+    'title' => '',
+    'title_prefix' => 'EzBlog | ',
     'title_postfix' => '',
 
     /*
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -65,11 +65,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-info',
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
     'layout_topnav' => null,
     'layout_boxed' => null,
     'layout_fixed_sidebar' => true,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -121,6 +121,7 @@ return [
     |
     */
 
+    //menu
     'classes_body' => '',
     'classes_brand' => '',
     'classes_brand_text' => '',
@@ -250,21 +251,40 @@ return [
             'text'        => 'Dashboard',
             'route'         => 'admin.home',
             'icon'        => 'fas fa-tachometer-alt fa-fw',
+            'can'         => 'admin.home',
+
             /* 'label'       => 4,
             'label_color' => 'success', */
         ],
-        ['header' => 'ADMINISTRADOR'],
+        [
+            'text'        => 'Usuarios',
+            'route'         => 'admin.users.index',
+            'icon'        => 'fas fa-users fa-fw',
+            'can'         => 'admin.users.index',
+        ],
+
+        [
+            'text'        => 'Lista de Roles',
+            'route'         => 'admin.roles.index',
+            'icon'        => 'fas fa-users-cog fa-fw',
+            'can'         => 'admin.roles.index',
+        ],
+
+
+        /* ['header' => 'ADMINISTRADOR'], */
         [
             'text' => 'Categorias',
             'route'  => 'admin.categories.index',
             'icon' => 'fab fa-fw fa-buffer',
-            'active'=> ['admin/categories*']
+            'active'=> ['admin/categories*'],
+            'can'         => 'admin.categories.index',
         ],
         [
             'text' => 'Etiquetas',
             'route'  => 'admin.tags.index',
             'icon' => 'far fa-fw fa-bookmark',
-            'active'=> ['admin/tags*']
+            'active'=> ['admin/tags*'],
+            'can'         => 'admin.tags.index',
         ],
         /* [
             'text'    => 'multilevel',
@@ -309,11 +329,13 @@ return [
             'text'       => 'Lista de post',
             'icon' => 'fas fa-fw fa-clipboard-list',
             'route'        => 'admin.posts.index',
+            'can'         => 'admin.posts.index',
         ],
         [
             'text'       => 'Crear nuevo post',
             'icon' => 'fas fa-fw fa-file',
             'route'        => 'admin.posts.create',
+            'can'         => 'admin.posts.create',
         ],
         [
             'text'       => 'information',

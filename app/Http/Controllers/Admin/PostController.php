@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
 
+
+    public function __construct()
+    {
+        $this->middleware('can:admin.posts.index')->only('index');
+        $this->middleware('can:admin.posts.create')->only('create', 'store');
+        $this->middleware('can:admin.posts.edit')->only('edit', 'update');
+        $this->middleware('can:admin.posts.destroy')->only('destroy');
+    }
+
     public function index()
     {
         return view('admin.posts.index');
@@ -51,11 +60,6 @@ class PostController extends Controller
         }
 
         return redirect()->route('admin.posts.index')->with('info', 'El post se creó con éxito');;
-    }
-
-    public function show(Post $post)
-    {
-        return view('admin.posts.show', compact('post'));
     }
 
 
@@ -111,7 +115,7 @@ class PostController extends Controller
         if($request->tags)
             $post->tags()->sync($request->tags);
 
-        return redirect()->route('admin.posts.index')->with('info', 'El post se actualizó con éxito');
+        return redirect()->route('admin.posts.index', $post)->with('info', 'El post se actualizó con éxito');
     }
 
 

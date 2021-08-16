@@ -1,13 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Blog')
+@section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Mostrar detalle de categoria</h1>
+    <h1>Mostrar rol</h1>
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
+    {{-- <p>{{$user=auth()->user()->roles}}</p> --}}
+    <p>{{$roles}}</p>
 @stop
 
 @section('css')

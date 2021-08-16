@@ -10,9 +10,11 @@
     {{-- bootstrap --}}
     <div class="card">
 
-        <div class="card-header">
-            <a class="btn btn-success" href="{{ route('admin.categories.create') }}">Nueva categoria</a>
-        </div>
+        @can('admin.categories.create')
+            <div class="card-header">
+                <a class="btn btn-success" href="{{ route('admin.categories.create') }}">Nueva categoria</a>
+            </div>
+        @endcan
 
         <div class="card-body">
             <table class="table table-hover">
@@ -30,18 +32,26 @@
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
                             <td width=10px>
-                                <a class="btn btn-primary btn-sm"
+                                @can('admin.categories.edit')
+                                    <a class="btn btn-primary btn-sm"
                                     href="{{ route('admin.categories.edit', $category) }}">Editar</a>
+                                @endcan
                             </td>
                             <td width=10px>
-                                <form action="{{ route('admin.categories.destroy', $category) }}"
+                                @can('admin.categories.destroy')
+                                    {{-- form action="{{ route('admin.categories.destroy', $category) }}"
                                     method="POST">
-                                    @csrf
-                                    @method('delete')
+                                        @csrf
+                                        @method('delete')
 
-                                    <button type="submit"
-                                        class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
+                                        <button type="submit"
+                                            class="btn btn-danger btn-sm show_confirm">Eliminar</button>
+                                </form> --}}
+
+                                {!! Form::open(['route' => ['admin.categories.destroy', $category], 'method' => 'delete', 'onsubmit' => 'return confirm("Esta seguro de borrar la categoria?")']) !!}
+                                    {!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger']) !!}
+                                {!! Form::close() !!}
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -71,7 +81,7 @@
     </script>
 
     <script>
-        $(function() {
+         $(function() {
 
             @if (Session('info2'))
                 Swal.fire({
@@ -81,5 +91,23 @@
                 })
             @endif
         });
+
+        /* $('.show_confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal({
+              title: `Are you sure you want to delete this record?`,
+              text: "If you delete this, it will be gone forever.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
+            }
+          });
+      }); */
     </script>
 @stop
